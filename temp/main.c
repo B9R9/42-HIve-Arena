@@ -12,7 +12,7 @@ int		main(void)
 {
 	int i = 0;
 	int x = 0;
-	int bee_position[1][2] = {5, 12};
+	int bee_position[1][2] = {12, 1};
 	char	**map;
 
 	map = (char **)malloc((sizeof(char *) * 25) + 1);
@@ -27,7 +27,7 @@ int		main(void)
 	while (i < 25)
 	{
 		x = 0;
-		while(x < 33)
+		while(x < 31)
 		{
 			map[i][x] = '.';
 			x++;
@@ -35,12 +35,28 @@ int		main(void)
 		map[i][x] = '\0';
 		i++;
 	}
-
-	printposition(bee_position, map);
-	i = 0;
-	while(i < 25)
-		printf("%s\n", map[i++]);
-
 	
+	printf("TEST\n");
+	while (1)
+	{
+		if (bee_position[0][0] != 1)
+		{
+			bee_position[0][0] -= 1;
+		}
+		else if (( bee_position[0][1] == 5 || bee_position[0][1] == 10 || bee_position[0][1] == 15 || bee_position[0][1] == 20 ) && (bee_position[0][0] == 1))
+		{
+			bee_position[0][0] +=1;
+		}
+		else if (bee_position[0][0]  == 1)
+		{
+			bee_position[0][1] += 1;
+		}
+		printposition(bee_position, map);
+		i = 0;
+		while(i < 25)
+			printf("%s\n", map[i++]);
+		printf("\n");
+	}
+
 	return (0);
 }
