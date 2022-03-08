@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "agent.h"
+#include "ia.h"
 
 int find_neighbour(agent_info_t info, cell_t type)
 {
@@ -23,7 +24,17 @@ int find_neighbour(agent_info_t info, cell_t type)
 
 command_t think(agent_info_t info)
 {
+	static t_brain new;
+	static t_membee bee;
+	if(!new)
+		new = setup(info, new);
+	if(!bee)
+		bee = beeinit(info, bee);
+
     cell_t bee = info.cells[VIEW_DISTANCE][VIEW_DISTANCE];
+
+
+
 
     if (is_bee_with_flower(bee))
     {
