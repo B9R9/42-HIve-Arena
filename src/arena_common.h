@@ -18,7 +18,7 @@ typedef enum
     BEE_0,
     BEE_1,
     BEE_0_WITH_FLOWER,
-    BEE_1_WITH_FLOWER,
+    BEE_1_WITH_FLOWER,
     FLOWER,
     WALL,
     HIVE_0,

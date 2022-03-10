@@ -4,46 +4,7 @@
 #include <stdio.h>
 #include "agent.h"
 
-typedef struct s_player0
-{
-	int	hive_player0_coord[0][1] = {12, 1};
-	int	bee0_position[0][1] = {10, 2};
-	int	bee1_position[0][1] = {11, 2};
-	int	bee2_position[0][1] = {12. 2};
-	int	bee3_position[0][1] = {13, 2};
-	int	bee4_position[0][1] = {14, 2};
-}t_player0;
 
-typedef struct s_player1
-{
-	int	hive_player1_coord[0][1] = {12, 28};
-	int	bee0_position[0][1] = {10, 27};
-	int	bee1_position[0][1] = {11, 27};
-	int	bee2_position[0][1] = {12. 27};
-	int	bee3_position[0][1] = {13, 27};
-	int	bee4_position[0][1] = {14, 27};
-}t_player1;
-
-typedef struct s_memory
-{
-	struct	t_player0;
-	struct	t_player1;
-}t_memory;
-/*
-typedef 
-{
-	int	*hive_player1_coord = {12, 28};
-
-}t_bee_memory_player01;
-*/
-int	bee_mouvement(t_memory li, int hive_dir, info)
-{
-	if(!hive_dir)
-	{
-	
-	}
-
-}
 int find_neighbour(agent_info_t info, cell_t type)
 {
     coords_t center = {VIEW_DISTANCE, VIEW_DISTANCE};
@@ -64,10 +25,9 @@ int find_neighbour(agent_info_t info, cell_t type)
 
 command_t think(agent_info_t info)
 {
-	t_memory	new;
 
 	printf("Player %d || bee n: %d || turn : %d\n", info.player, info.bee, info.turn);
-    
+   printf("Row %d || col: %d\n", info.row, info.col); 
 	cell_t bee = info.cells[VIEW_DISTANCE][VIEW_DISTANCE];
 	
 	printf("Valuer de bee = %d\n", bee);

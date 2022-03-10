@@ -6,23 +6,22 @@
 /*   By: briffard <briffard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 13:02:29 by briffard          #+#    #+#             */
-/*   Updated: 2022/03/08 14:23:58 by briffard         ###   ########.fr       */
+/*   Updated: 2022/03/09 10:58:20 by briffard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ia.h"
 
-static	int		**memoryalloc(int **arr);
-static	char	**mapinit(char **map);
-static	void	panicattack(char *str);
+static	int		**memoryalloc(int **arr, int line, int colone);
+//static	char	**mapinit(char **map);
 
-static	void	panicattack(char *str)
+void	panicattack(char *str)
 {
 	write(2, str, strlen(str));
 	exit(EXIT_FAILURE);
 }
 
-static	int ** memoryalloc(int **arr, int line, int colone)
+static	int **memoryalloc(int **arr, int line, int colone)
 {
 	int i;
 
@@ -39,10 +38,11 @@ static	int ** memoryalloc(int **arr, int line, int colone)
 	}
 		return (arr);
 }
-
+/*
 static char	**mapinit(char **map)
 {
-	int i;
+	int	i;
+	int	x;
 
 	i = 0;
 	map = (char **)malloc((sizeof(char *) * 25) + 1);
@@ -69,32 +69,44 @@ static char	**mapinit(char **map)
 	}
 	return (map);
 }
-
+*/
 t_brain		braininit(t_brain li)
 {
-	li.home = memoryalloc(li.home, 1, 2);
-	li.hive_position = memoryalloc(li.hive_poistion, 1 , 2);
-	li.map = mapinit(li.map);
+	li->home = memoryalloc(li->home, 1, 2);
+	li->hive_position = memoryalloc(li->hive_position, 1 , 2);
+	//li->map = mapinit(li->map);
 	return (li);
 }
 
 t_brain		setup(agent_info_t info, t_brain li)
 {
 
-	li.hive_position[0][0] = 12;
-	li.home[0][0] = 12
+	li->hive_position[0][0] = 12;
+	li->home[0][0] = 12;
 
 	if(info.player == 0)
 	{
-		li.hive_position[0][1] = 1;
-		li.home[0][1] = 2
+		li->hive_position[0][1] = 1;
+		li->home[0][1] = 2;
 	}
 	else
 	{
-		li.hive_position[0][1] = 29;
-		li.home[0][1] = 28
+		li->hive_position[0][1] = 29;
+		li->home[0][1] = 28;
 	}
 	return (li);
+}
+
+/*==========================================================================*/
+
+t_brain		puttonull(void)
+{
+	return (NULL);
+}
+
+t_membee	toNull(void)
+{
+	return(NULL);
 }
 
 /*==========================================================================*/
@@ -103,6 +115,7 @@ t_membee	beeinit(agent_info_t li, t_membee bee)
 {
 	int	i;
 	int line;
+	int	colone;
 
 	line = 10;
 	i = 0;
@@ -110,11 +123,11 @@ t_membee	beeinit(agent_info_t li, t_membee bee)
 		colone = 2;
 	else 
 		colone = 28;
-	bee.last_positionbee = memoryalloc(bee.last_positionbee,6 , 2);
+	bee->last_positionbee = memoryalloc(bee->last_positionbee, 6, 2);
 	while (i < 6)
 	{
-		bee.last_positionbee[i][0] = line ;
-		bee.last_positionbee[i][1] = colone;
+		bee->last_positionbee[i][0] = line ;
+		bee->last_positionbee[i][1] = colone;
 		i++;
 		line++;
 	}
