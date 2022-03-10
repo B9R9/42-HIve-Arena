@@ -277,6 +277,7 @@ command_t think(agent_info_t info)
 		hiverow = 12;
 		hivecol = 2;
 	}
+
 	
 
     cell_t bee = info.cells[VIEW_DISTANCE][VIEW_DISTANCE];
