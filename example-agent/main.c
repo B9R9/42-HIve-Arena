@@ -15,7 +15,6 @@ int find_neighbour(agent_info_t info, cell_t type)
         cell_t neighbour = info.cells[coords.row][coords.col];
         if (neighbour == type)
         {
-			printf("Valeur de dir: %d\n", dir);
             return dir;
         }
     }
@@ -26,24 +25,17 @@ int find_neighbour(agent_info_t info, cell_t type)
 command_t think(agent_info_t info)
 {
 
-	printf("Player %d || bee n: %d || turn : %d\n", info.player, info.bee, info.turn);
-   printf("Row %d || col: %d\n", info.row, info.col); 
 	cell_t bee = info.cells[VIEW_DISTANCE][VIEW_DISTANCE];
 	
-	printf("Valuer de bee = %d\n", bee);
-	printf("Valeur de retour is_bee = %d\n", is_bee_with_flower(bee));
     
 	if (is_bee_with_flower(bee))
     {
-		printf("Valuer de bee avec fleur = %d\n", bee);
         
 		int hive_dir = find_neighbour(info, hive_cell(info.player));
 		
-		printf("Valeur Hive_dir = %d\n", hive_dir);// return -1
         
 		if (hive_dir >= 0)
         {
-			printf("=================================================\n");
             return (command_t) {
                 .action = FORAGE,
                 .direction = hive_dir
@@ -54,18 +46,15 @@ command_t think(agent_info_t info)
     {
         int flower_dir = find_neighbour(info, FLOWER);
 		
-		printf("Valeur de flower_dir= %d\n", flower_dir);
         
 		if (flower_dir >= 0)
         {
-			printf("=================================================\n");
             return (command_t) {
                 .action = FORAGE,
                 .direction = flower_dir
             };
         }
     }
-	printf("=================================================\n");
     return (command_t) {
         .action = MOVE,
         .direction = rand() % 8
