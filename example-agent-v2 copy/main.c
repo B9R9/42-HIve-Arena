@@ -85,6 +85,9 @@ int		bee_spy(agent_info_t info)
 
 int		go_around( int dir, agent_info_t info)
 {
+	
+	
+	/*
 	if (info.bee == 3 || info.bee == 4)
 	{
 		if (dir == N)
@@ -96,7 +99,8 @@ int		go_around( int dir, agent_info_t info)
 		if (dir == NE)
 			return is_empty(rand() % 8, info);
 		return (is_empty(dir + 1, info));
-	}
+	}*/
+	return (0);
 }
 
 int		is_empty(int dir, agent_info_t info)
@@ -373,7 +377,7 @@ command_t think(agent_info_t info)
 		hive_col = 2;
 		hive_row = 12;
 	}
-
+	printf("PLAYER = %d || BEE = %d || TURN = %d || COL = %d || ROW = %D\n", info.player, info.bee, info.turn, info.col, info.row);
 	cell_t bee = info.cells[VIEW_DISTANCE][VIEW_DISTANCE];
 	
     
@@ -405,6 +409,8 @@ command_t think(agent_info_t info)
 			}
 			else
 		*/		//{
+					int test = is_empty(go_home(info, hive_row, hive_col),info);
+					printf("VALEUR DE TEST = %d\n", test);
 					return (command_t){
 						.action = MOVE,
 						.direction = is_empty(go_home(info, hive_row, hive_col),info)
@@ -432,6 +438,8 @@ command_t think(agent_info_t info)
 	}
 	else
 */	//{
+		int MOVE = dispacht_bee(info.bee,info);
+		printf("VALEUR DE MOVE = %d\n", MOVE);
     	return (command_t) {
         .action = MOVE,
         .direction = dispacht_bee(info.bee, info)
