@@ -4,7 +4,23 @@
 #include <stdio.h>
 #include "agent.h"
 
+typedef struct s_attackmod
+{
+	int bee0;
+	int	bee1;
+	int bee3;
+	int bee4;
+}			t_attackmod;
+
 int		is_empty(int dir, agent_info_t info);
+int		bee2_move(agent_info_t info);
+int		is_up(int col, int player);
+int 	s_down(int col, int player);
+int		bee_spy(agent_info_t info);
+int		looking_for_flower(agent_info_t info);
+int		dispacht_bee(int bee, agent_info_t info);
+int		go_home(agent_info_t info, int hive_row, int hive_col);
+int 	find_neighbour(agent_info_t info, cell_t type);
 
 int		is_up(int col, int player)
 {
@@ -246,9 +262,7 @@ int		looking_for_flower(agent_info_t info)
 int		dispacht_bee(int bee, agent_info_t info)
 {
 	if (bee == 0 || bee == 1 || bee == 3 || bee == 4 || bee == 2)
-	{
 		return looking_for_flower(info);
-	}
 	else
 		return bee_spy(info);
 
@@ -333,27 +347,54 @@ command_t	attack_other_bee(agent_info_t info)
 	}
 }
 */
-commant_t bee_attack(agent_info_t info)
+int	bee2_move(agent_info_t info)
 {
-	int	dir;
-	int action;
-
-	if ( info.col < 25)
+	if(info.player == 0)
 	{
-		dir = E;
-		action = MOVE;
+		 if (info.col == 26 && info.row < 13)
+			return S;
+		 else if (info.col == 29 && info.row > 11)
+			 return N;
+		 else if (info.row == 11 && info.col > 26)
+			 return W;
+		 else
+			 return E;
+	}
+	else if (info.player == 1)
+	{
+
 	}
 
-	return (command_t){
-		.action = action,
-		.direction = dir
-	};
+}
+
+t_attackmod init(t_attackmod li)
+{
+	li.bee0 = 0;
+	li.bee1 = 0;
+	li.bee3 = 0;
+	li.bee4 = 0;
+	return li;
 }
 command_t think(agent_info_t info)
 {
 	int 	hive_col;
 	int 	hive_row;
 	int		wall_dir;
+	t_attackmod attack;
+	
+	if(info.turn == 0)
+		attack = init(attack);
+	if (info.col == 0 || info.col == 29)
+	{
+		if(info.bee == 0)
+			attack.bee0 = 1;
+		else if (info.bee == 1)
+			attack.bee1 = 1;
+		else if (info.bee == 3)
+			attack.bee3 = 1;
+		else if (info.bee == 4)
+			attack.bee4 = 1;
+	}
 
 	if (info.player == 1)
 	{
@@ -365,10 +406,8 @@ command_t think(agent_info_t info)
 		hive_col = 2;
 		hive_row = 12;
 	}
-	printf("PLAYER = %d || BEE = %d || TURN = %d || COL = %d || ROW = %D\n", info.player, info.bee, info.turn, info.col, info.row);
 	cell_t bee = info.cells[VIEW_DISTANCE][VIEW_DISTANCE];
 	
-    
 	if (is_bee_with_flower(bee))
     {
 		int hive_dir = find_neighbour(info, hive_cell(info.player));
@@ -419,17 +458,46 @@ command_t think(agent_info_t info)
 	}
 	else
 	{
-		if (info.bee == 2)
+		if (info.bee == 2 || attack.bee0 == 1 || attack.bee1 == 1 || attack.bee3 == 1 || attack.bee4 == 1)
 		{
-			return (bee_attack);
+			int	bee_ennemy;
+			if(info.player == 0)
+			{
+				bee_ennemy = find_neighbour(info, BEE_1_WITH_FLOWER);
+				if(bee_ennemy >= 0)
+				{
+					return (command_t){
+						.action = GUARD,
+						.direction = bee_ennemy
+						};
+				}
+			}
+			else if(info.player == 1)
+			{
+				bee_ennemy = find_neighbour(info, BEE_0_WITH_FLOWER);
+				if(bee_ennemy >= 0)
+				{
+					return(command_t){
+						.action = GUARD,
+						.direction = bee_ennemy
+					};
+				}
+			}
+			else
+			{
+				return (command_t){
+					.action = MOVE,
+					.direction = is_empty(bee2_move(info), info)
+				};
+			}
 		}
 		else
 		{
 			return (command_t) {
         		.action = MOVE,
         		.direction = is_empty(dispacht_bee(info.bee, info), info)
-    		}
-		};
+    		};
+		}
 	}
 }
 
