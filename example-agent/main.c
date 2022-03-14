@@ -4,7 +4,6 @@
 #include <stdio.h>
 #include "agent.h"
 
-
 int find_neighbour(agent_info_t info, cell_t type)
 {
     coords_t center = {VIEW_DISTANCE, VIEW_DISTANCE};
@@ -24,17 +23,12 @@ int find_neighbour(agent_info_t info, cell_t type)
 
 command_t think(agent_info_t info)
 {
+    cell_t bee = info.cells[VIEW_DISTANCE][VIEW_DISTANCE];
 
-	cell_t bee = info.cells[VIEW_DISTANCE][VIEW_DISTANCE];
-	
-    
-	if (is_bee_with_flower(bee))
+    if (is_bee_with_flower(bee))
     {
-        
-		int hive_dir = find_neighbour(info, hive_cell(info.player));
-		
-        
-		if (hive_dir >= 0)
+        int hive_dir = find_neighbour(info, hive_cell(info.player));
+        if (hive_dir >= 0)
         {
             return (command_t) {
                 .action = FORAGE,
@@ -45,9 +39,7 @@ command_t think(agent_info_t info)
     else
     {
         int flower_dir = find_neighbour(info, FLOWER);
-		
-        
-		if (flower_dir >= 0)
+        if (flower_dir >= 0)
         {
             return (command_t) {
                 .action = FORAGE,
@@ -55,12 +47,10 @@ command_t think(agent_info_t info)
             };
         }
     }
+
     return (command_t) {
         .action = MOVE,
         .direction = rand() % 8
-			/*quel direction prendre quand la bee a une fleur mais pas la ruche
-			 * en vison.
-			 * comment lla bee bouge pour rechercher une fleur */
     };
 }
 
@@ -73,7 +63,7 @@ int main(int argc, char **argv)
 
     char *host = argv[1];
     int port = atoi(argv[2]);
-    char *team_name = "Les muscles";
+    char *team_name = "example_agent";
 
     agent_main(host, port, team_name, think);
 }
